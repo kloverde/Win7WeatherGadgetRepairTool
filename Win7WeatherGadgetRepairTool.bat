@@ -31,10 +31,11 @@ echo.
 
 set RET_FUNCTION_SUCCESS=0
 set RET_FUNCTION_UNINITIALIZED_FAILURE=99
-set RET_ISLICENSEACCEPTED_CONFIG_FILE_DECLINED=-1
-set RET_LICENSEPROMPT_USER_DECLINED=-2
-set RET_FIXGADGET_FILE_NOT_FOUND=-3
-set RET_FIXGADGET_COPY_FAIL=-4
+set RET_ISLICENSEACCEPTED_CANT_READ_LICENSE=-1
+set RET_ISLICENSEACCEPTED_CONFIG_FILE_DECLINED=-2
+set RET_LICENSEPROMPT_USER_DECLINED=-3
+set RET_FIXGADGET_FILE_NOT_FOUND=-4
+set RET_FIXGADGET_COPY_FAIL=-5
 
 set executionDir=%~dp0
 set licenseFullPath=%executionDir%\LICENSE
@@ -109,11 +110,19 @@ REM              RET_FUNCTION_SUCCESS if license is accepted
    if not exist "%scriptConfigFullPath%" (
       echo LICENSING TERMS
       echo.
-      type %licenseFullPath%
-      echo.
 
-      call :licensePrompt retLicensePrompt
-      set %~1=!retLicensePrompt!
+      type %licenseFullPath%
+
+      if not !errorlevel!==0 (
+         echo.
+         echo Could not display the LICENSE file.  Please check to make sure that LICENSE is present in the same directory as the script and that you have read access to it, then run this script again.
+         set %~1=%RET_ISLICENSEACCEPTED_CANT_READ_LICENSE%
+      ) else (
+         echo.
+
+         call :licensePrompt retLicensePrompt
+         set %~1=!retLicensePrompt!
+      )
    ) else (
       REM Don't use findstr.  It has a silly bug which requires the file to have a newline
       REM at the end, which could mess up parsing if the user manually edits the file.
