@@ -1,17 +1,17 @@
-REM Windows 7 Weather Widget Repair Tool v1.0
+REM Windows 7 Weather Gadget Repair Tool v1.0
 REM Copyright (c) 2015 Kurtis LoVerde
-REM https://www.github.com/kloverde/Win7WeatherWidgetRepairTool
+REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 REM
 REM This script fixes a common problem with the Windows 7 weather
-REM widget where the widget suddenly stops working.  Instead of
+REM gadget where the gadget suddenly stops working.  Instead of
 REM showing the current weather conditions, it displays an error
 REM which says "Cannot connect to service."  This script
-REM refreshes the widget's configuration file; the widget will
-REM start working again once the widget is restarted.  This is
+REM refreshes the gadget's configuration file; the gadget will
+REM start working again once the gadget is restarted.  This is
 REM usually accomplished by logging out and logging back in.
 REM However, it's possible that by running this script at
 REM startup, the configuration file might be refreshed before the
-REM widget initializes, eliminating the need for logging out.
+REM gadget initializes, eliminating the need for logging out.
 REM If you would like to run this script at startup, run the
 REM install.bat script which is packaged with this utility.  It
 REM will create an entry in your registry to run at startup.
@@ -23,8 +23,8 @@ setlocal enabledelayedexpansion
 
 cls
 
-echo Windows 7 Weather Widget Repair Tool v1.0
-echo https://www.github.com/kloverde/Win7WeatherWidgetRepairTool
+echo Windows 7 Weather Gadget Repair Tool v1.0
+echo https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 
 echo.
 echo.
@@ -33,45 +33,45 @@ set RET_FUNCTION_SUCCESS=0
 set RET_FUNCTION_UNINITIALIZED_FAILURE=99
 set RET_ISLICENSEACCEPTED_CONFIG_FILE_DECLINED=-1
 set RET_LICENSEPROMPT_USER_DECLINED=-2
-set RET_FIXWIDGET_FILE_NOT_FOUND=-3
-set RET_FIXWIDGET_COPY_FAIL=-4
+set RET_FIXGADGET_FILE_NOT_FOUND=-3
+set RET_FIXGADGET_COPY_FAIL=-4
 
 set executionDir=%~dp0
 set licenseFullPath=%executionDir%\LICENSE
 
-set scriptConfigDir=%USERPROFILE%\.Win7WeatherWidgetRepairTool
+set scriptConfigDir=%USERPROFILE%\.Win7WeatherGadgetRepairTool
 set scriptConfigFile=config
 set scriptConfigFullPath=%scriptConfigDir%\%scriptConfigFile%
 set scriptConfigFlagAcceptedLicense=acceptedLicense
 
-set widgetConfigDir=%USERPROFILE%\AppData\Local\Microsoft\Windows Live\Services\Cache
-set widgetConfigFile=Config.xml
-set widgetConfigFullPath=%widgetConfigDir%\%widgetConfigFile%
+set gadgetConfigDir=%USERPROFILE%\AppData\Local\Microsoft\Windows Live\Services\Cache
+set gadgetConfigFile=Config.xml
+set gadgetConfigFullPath=%gadgetConfigDir%\%gadgetConfigFile%
 
 
 REM FUNCTION   : main
 REM PARAMETERS : none
-REM RETURNS    : 0 for successful widget repair; non-zero for unsuccessful repair
+REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repair
 :main
    setlocal
 
    REM Default the return values to failure states
    set retIsLicenseAccepted=%RET_FUNCTION_UNINITIALIZED_FAILURE%
-   set retFixWidget=%RET_FUNCTION_UNINITIALIZED_FAILURE%
+   set retFixGadget=%RET_FUNCTION_UNINITIALIZED_FAILURE%
    set exitStatus=%RET_FUNCTION_UNINITIALIZED_FAILURE%
 
-   set strSuccess=Widget repaired successfully.  You might have to log out and log back in again for the change to take effect.
-   set strError=ERROR:  Widget repair failed with return code 
+   set strSuccess=Gadget repaired successfully.  You might have to log out and log back in again for the change to take effect.
+   set strError=ERROR:  Gadget repair failed with return code 
 
    call :isLicenseAccepted retIsLicenseAccepted
 
    if !retIsLicenseAccepted!==%RET_FUNCTION_SUCCESS% (
       call :writeConfigFile
-      call :fixWidget retFixWidget
+      call :fixGadget retFixGadget
 
-      if not !retFixWidget!==%RET_FUNCTION_SUCCESS% (
-         set strError=!strError!!retFixWidget!
-         set exitStatus=!retFixWidget!
+      if not !retFixGadget!==%RET_FUNCTION_SUCCESS% (
+         set strError=!strError!!retFixGadget!
+         set exitStatus=!retFixGadget!
       ) else (
          set exitStatus=%RET_FUNCTION_SUCCESS%
       )
@@ -153,24 +153,24 @@ REM              RET_FUNCTION_SUCCESS if the user accepted the terms
 
    goto licensePrompt
 
-REM FUNCTION   : fixWidget
+REM FUNCTION   : fixGadget
 REM PARAMETERS : reference variable for return value
-REM RETURNS    : RET_FIXWIDGET_FILE_NOT_FOUND if the widget config file could not be found
-REM              RET_FIXWIDGET_COPY_FAIL if file unsuccessfully written;
+REM RETURNS    : RET_FIXGADGET_FILE_NOT_FOUND if the gadget config file could not be found
+REM              RET_FIXGADGET_COPY_FAIL if file unsuccessfully written;
 REM              RET_FUNCTION_SUCCESS if file successfully written
-:fixWidget
-   if not exist "%widgetConfigFullPath%" (
-      set %~1=%RET_FIXWIDGET_FILE_NOT_FOUND%
+:fixGadget
+   if not exist "%gadgetConfigFullPath%" (
+      set %~1=%RET_FIXGADGET_FILE_NOT_FOUND%
    ) else (
-      echo Repairing widget...
+      echo Repairing gadget...
 
-      pushd %widgetConfigDir%
-      copy %widgetConfigFile% /b+ ,,/y
+      pushd %gadgetConfigDir%
+      copy %gadgetConfigFile% /b+ ,,/y
 
       if !errorlevel!==0 (
          set %~1=%RET_FUNCTION_SUCCESS%
       ) else (
-         set %~1=%RET_FIXWIDGET_COPY_FAIL%
+         set %~1=%RET_FIXGADGET_COPY_FAIL%
       )
 
       popd
