@@ -32,7 +32,7 @@ REM Constructing the path without double backslashes would look like:
 REM %~dp0TheRestOfThePath.  This would look like a mistake to anyone
 REM reading the code; you'd expect to see %~dp0\TheRestOfThePath.
 REM That, however, results in a double backslash, which Windows can't
-REM read.  It seems the only CMD.exe can cope with it.
+REM read.  It seems that only CMD.exe can cope with it.
 REM
 REM Given the inconsistency with how paths are reported and handled,
 REM and my complete lack of confidence that the inconsistency will
