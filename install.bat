@@ -68,8 +68,10 @@ echo.
 
 
 :install
-   reg add %registryKey% /v %registryValue% /t REG_SZ /d "%executionDir%\Win7WeatherGadgetRepairTool.bat" /f
- 
+   call .\pathSanitizer.bat "%executionDir%\Win7WeatherGadgetRepairTool.bat"
+
+   reg add %registryKey% /v %registryValue% /t REG_SZ /d "%sanitized_path%" /f
+
    if %errorlevel%==0 (
       echo.
       echo Installation complete.
