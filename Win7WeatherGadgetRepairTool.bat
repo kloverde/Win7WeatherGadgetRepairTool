@@ -1,54 +1,27 @@
+@echo off
+
 REM Windows 7 Weather Gadget Repair Tool v1.0
 REM Copyright (c) 2015 Kurtis LoVerde
 REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 REM
-REM This script fixes a common problem with the Windows 7 weather
-REM gadget where the gadget suddenly stops working.  Instead of
-REM showing the current weather conditions, it displays an error
-REM which says "Cannot connect to service."  This script
-REM refreshes the gadget's configuration file; the gadget will
-REM start working again once the gadget is restarted.  This is
-REM usually accomplished by logging out and logging back in.
-REM However, it's possible that by running this script at
-REM startup, the configuration file might be refreshed before the
-REM gadget initializes, eliminating the need for logging out.
-REM If you would like to run this script at startup, run the
-REM install.bat script which is packaged with this utility.  It
-REM will create an entry in your registry to run at startup.
-
 REM See LICENSE for this software's licensing terms.
 
-@echo off
 setlocal enabledelayedexpansion
 
 cls
 
 echo Windows 7 Weather Gadget Repair Tool v1.0
+echo Copyright (c) 2015 Kurtis LoVerde
 echo https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 
 echo.
 echo.
 
-set RET_FUNCTION_SUCCESS=0
-set RET_FUNCTION_UNINITIALIZED_FAILURE=99
-set RET_ISLICENSEACCEPTED_CANT_READ_LICENSE=-1
-set RET_ISLICENSEACCEPTED_CONFIG_FILE_DECLINED=-2
-set RET_LICENSEPROMPT_USER_DECLINED=-3
-set RET_FIXGADGET_FILE_NOT_FOUND=-4
-set RET_FIXGADGET_COPY_FAIL=-5
-
 set executionDir=%~dp0
-set licenseFullPath=%executionDir%\LICENSE
 
-set scriptConfigDir=%USERPROFILE%\.Win7WeatherGadgetRepairTool
-set scriptConfigFile=config
-set scriptConfigFullPath=%scriptConfigDir%\%scriptConfigFile%
-set scriptConfigFlagAcceptedLicense=acceptedLicense
+pushd "%executionDir%"
 
-set gadgetConfigDir=%USERPROFILE%\AppData\Local\Microsoft\Windows Live\Services\Cache
-set gadgetConfigFile=Config.xml
-set gadgetConfigFullPath=%gadgetConfigDir%\%gadgetConfigFile%
-
+call initVariables.bat
 
 REM FUNCTION   : main
 REM PARAMETERS : none
@@ -64,10 +37,11 @@ REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repai
    set strSuccess=Gadget repaired successfully.  You might have to log out and log back in again for the change to take effect.
    set strError=ERROR:  Gadget repair failed with return code 
 
-   call :isLicenseAccepted retIsLicenseAccepted
+   call .\license.bat
+   set retIsLicenseAccepted=%errorlevel%
 
    if !retIsLicenseAccepted!==%RET_FUNCTION_SUCCESS% (
-      call :writeConfigFile
+      call .\writeConfigFile.bat
       call :fixGadget retFixGadget
 
       if not !retFixGadget!==%RET_FUNCTION_SUCCESS% (
@@ -94,73 +68,7 @@ REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repai
    exit /b !exitStatus!
 
    endlocal
-   goto :eof
-
-REM FUNCTION   : isLicenseAccepted
-REM PARAMETERS : reference variable for return value
-REM RETURNS    : All possible failure codes from licensePrompt();
-REM              RET_ISLICENSEACCEPTED_CONFIG_FILE_DECLINED if the config file indicates the terms were not accepted;
-REM              RET_FUNCTION_SUCCESS if license is accepted
-:isLicenseAccepted
-   setlocal
-      set found=0
-      set retLicensePrompt=%RET_LICENSEPROMPT_USER_DECLINED%
-   endlocal
-
-   if not exist "%scriptConfigFullPath%" (
-      echo LICENSING TERMS
-      echo.
-
-      type %licenseFullPath%
-
-      if not !errorlevel!==0 (
-         echo.
-         echo Could not display the LICENSE file.  Please check to make sure that LICENSE is present in the same directory as the script and that you have read access to it, then run this script again.
-         set %~1=%RET_ISLICENSEACCEPTED_CANT_READ_LICENSE%
-      ) else (
-         echo.
-
-         call :licensePrompt retLicensePrompt
-         set %~1=!retLicensePrompt!
-      )
-   ) else (
-      REM Don't use findstr.  It has a silly bug which requires the file to have a newline
-      REM at the end, which could mess up parsing if the user manually edits the file.
-      REM findstr /x "%scriptConfigFlagAcceptedLicense%" "%scriptConfigFullPath%"
-
-      for /f %%s in ( %scriptConfigFullPath% ) do (
-         if %scriptConfigFlagAcceptedLicense%==%%s (
-            set found=1
-         )
-      )
-
-      if !found!==1 (
-         set %~1=%RET_FUNCTION_SUCCESS%
-      ) else (
-         set %~1=%RET_ISLICENSEACCEPTED_CONFIG_FILE_DECLINED%
-      )
-   )
-
-   goto :eof
-
-REM FUNCTION   : licensePrompt
-REM PARAMETERS : reference variable for return value
-REM RETURNS    : RET_LICENSEPROMPT_USER_DECLINED if user did not accept the terms;
-REM              RET_FUNCTION_SUCCESS if the user accepted the terms
-:licensePrompt
-   set /p accept=Do you accept the licensing terms^? ^(Y/N^) 
-
-   if /i "!accept!"=="Y" (
-      set %~1=%RET_FUNCTION_SUCCESS%
-      goto :eof
-   )
-      
-   if /i "!accept!"=="N" (
-      set %~1=%RET_LICENSEPROMPT_USER_DECLINED%
-      goto :eof
-   )
-
-   goto licensePrompt
+   goto end
 
 REM FUNCTION   : fixGadget
 REM PARAMETERS : reference variable for return value
@@ -185,22 +93,9 @@ REM              RET_FUNCTION_SUCCESS if file successfully written
       popd
    )
 
-   goto :eof
+   goto end
 
-REM FUNCTION   : writeConfigFile
-REM PARAMETERS : none
-REM RETURNS    : nothing
-:writeConfigFile
-   if not exist "%scriptConfigDir%" (
-      mkdir "%scriptConfigDir%"
-   )
+:end
+   popd
 
-   REM Don't put a space in front of the redirect operator!  The space will be written to the file,
-   REM which will mess up parsing.
-
-   echo %scriptConfigFlagAcceptedLicense%> %scriptConfigFullPath%
-   goto :eof
-
-
-REM closing endlocal from the beginning of the script
 endlocal
