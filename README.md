@@ -41,4 +41,5 @@ install.bat:
 
 uninstall.bat:
   This script removes the autorun entry added to the
-  registry by install.bat.
+  registry by install.bat.  It also removes the settings
+  file that this tool creates in your user profile.
