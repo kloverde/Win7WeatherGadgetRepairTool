@@ -25,7 +25,7 @@ REM              RET_FUNCTION_SUCCESS if license is accepted
       echo.
       type %licenseFullPath%
 
-      if not %errorlevel%==0 (
+      if not !errorlevel!==0 (
          echo.
          echo Could not display the LICENSE file.  Please check to make sure that LICENSE is present in the same directory as the script and that you have read access to it, then run this script again.
          exit /b %RET_ISLICENSEACCEPTED_CANT_READ_LICENSE%
@@ -63,12 +63,12 @@ REM              RET_FUNCTION_SUCCESS if the user accepted the terms
 :licensePrompt
    set /p accept=Do you accept the licensing terms^? ^(Y/N^) 
 
-   if /i "%accept%"=="Y" (
+   if /i "!accept!"=="Y" (
       set %~1=%RET_FUNCTION_SUCCESS%
       goto :eof
    )
 
-   if /i "%accept%"=="N" (
+   if /i "!accept!"=="N" (
       set %~1=%RET_LICENSEPROMPT_USER_DECLINED%
       goto :eof
    )
