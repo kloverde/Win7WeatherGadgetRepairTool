@@ -10,21 +10,30 @@ This script refreshes the gadget's configuration file; the
 gadget will start working again once the gadget is
 restarted.
 
-Win7WeatherGadgetRepairTool.bat:
-  This script performs the repair operation.  After
-  running this script, you will need to restart the gadget
-  or log out, then log back in.
+All of the contents in the provided zip file need to stay
+together in the same directory.  Do not separate them.
 
-install.bat:
+The following three scripts are the only ones you should
+run yourself:
+
+**Win7WeatherGadgetRepairTool.bat:**
+
+  This script performs the repair operation; run it when
+  you notice your gadget malfunctioning.  After running
+  it, you'll probably need to restart the gadget or log
+  out, then log back in.
+
+**install.bat:**
+
   This script will add an entry to the Windows registry to
   run Win7WeatherGadgetRepairTool.bat automatically at
-  startup.  It it not necessary to use this script, but
+  startup.  It is not necessary to use this script, but
   it can make it less likely for the gadget to malfunction.
   It might even eliminate the need for you to restart the
   gadget or log out, depending on when the malfunction
-  occurs.  If the repair occurs before the gadget
-  initializes, for example, you'll never even notice that
-  something was wrong.
+  occurs.  For example, if there's a problem and the
+  repair occurs before the gadget initializes, you'll
+  never even notice that something was wrong.
 
   If you want to get *really* aggressive, you could use
   Task Scheduler to create a recurring task to run
@@ -39,7 +48,8 @@ install.bat:
   still have to restart the gadget and/or log out and log
   back in.
 
-uninstall.bat:
+**uninstall.bat:**
+
   This script removes the autorun entry added to the
   registry by install.bat.  It also removes the settings
   file that this tool creates in your user profile.
