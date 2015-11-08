@@ -1,12 +1,13 @@
 @echo off
 
 REM Windows 7 Weather Gadget Repair Tool v1.0
-REM Copyright (c) 2015 Kurtis LoVerde
 REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
+REM Copyright (c) 2015 Kurtis LoVerde
+REM All rights reserved.
 REM
 REM See LICENSE for this software's licensing terms.
 
-setlocal
+setlocal enabledelayedexpansion
 
 set executionDir=%~dp0
 
@@ -16,9 +17,8 @@ call .\initVariables.bat
 
 cls
 
-echo Win7WeatherGadgetRepairTool Uninstaller
+echo Windows 7 Weather Gadget Repair Tool Uninstaller
 echo.
-echo Copyright (c) 2015 Kurtis LoVerde
 echo https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 echo.
 echo Uninstallation will perform the following operations:
@@ -53,59 +53,60 @@ echo.
 
 
 :uninstall
-   echo.
+   set errCodeRegDelete=%RET_FUNCTION_SUCCESS%
+   set errCodeDeleteDir=%RET_FUNCTION_SUCCESS%
 
+   REM Boolean OR doesn't exist in batch scripting.  For the love of God...
    set failed=0
-   set errLevelRegDelete=%RET_FUNCTION_SUCCESS%
 
-   echo Deleting registry entry...
+   echo.
 
    REM Make sure the registry value exists before attempting to delete it, otherwise reg.exe
    REM could exit with an error code, causing the uninstaller to throw a false error message.
 
    reg query %registryKey% /v %registryValue% > nul 2>&1
+   set foundRegistryEntry=!errorlevel!
 
-   if %errorlevel%==%RET_FUNCTION_SUCCESS% (
-      reg delete %registryKey% /v %registryValue% /f
-      set errLevelRegDelete=%errorlevel%
+   if !foundRegistryEntry!==0 (
+      reg delete %registryKey% /v %registryValue% /f > nul 2>&1
+
+      if not !errorlevel!==0 (
+         set errCodeRegDelete=%RET_UNINSTALL_CANT_DELETE_REGISTRY%
+         set failed=1
+      )
    )
 
-   if not %errLevelRegDelete%==%RET_FUNCTION_SUCCESS% (
-      set failed=1
-   )
-
-   echo.
-   echo Deleting settings...
-
-   rmdir /s /q "%scriptConfigDir%" 2> nul
-
-   REM rmdir is weird:  %errorlevel% is 0 when the target doesn't exist.
-   REM Check for the existence of the directory instead.
+   REM Make sure the settings directory exists before attempting to delete it, otherwise rmdir
+   REM could exit with an error code, causing the uninstaller to throw a false error message.
 
    if exist "%scriptConfigDir%" (
-      set errCodeDeleteDir=%RET_UNINSTALL_CANT_DELETE_CFG_DIR%
-      set failed=1
-   ) else (
-      set errCodeDeleteDir=%RET_FUNCTION_SUCCESS%
+      rmdir /s /q "%scriptConfigDir%" 2> nul
+
+      REM Rmdir is bad because it doesn't set errorlevel.  This includes when the target
+      REM doesn't exist and when the target can't be deleted because something has a
+      REM lock on it.  Check for the existence of the directory instead.
+
+      if exist "%scriptConfigDir%" (
+         set errCodeDeleteDir=%RET_UNINSTALL_CANT_DELETE_CFG_DIR%
+         set failed=1
+      )
    )
 
    echo.
 
-   REM Don't you just love how cmd.exe doesn't support boolean expressions?
-
-   if %failed%==1 (
+   if !failed!==1 (
       echo ERROR:  Uninstall failed.  The following problems were encountered:
       echo.
+
+      if not !errCodeRegDelete!==%RET_FUNCTION_SUCCESS% (
+         echo   Could not delete the registry entry
+      )
+
+      if not !errCodeDeleteDir!==%RET_FUNCTION_SUCCESS% (
+         echo   Could not delete "%scriptConfigDir%" 
+      )
    ) else (
       echo Uninstall completed successfully
-   )
-
-   if not %errLevelRegDelete%==%RET_FUNCTION_SUCCESS% (
-      echo   Could not delete the registry entry
-   )
-
-   if not %errCodeDeleteDir%==%RET_FUNCTION_SUCCESS% (
-      echo   Could not delete "%scriptConfigDir%" 
    )
 
    echo.

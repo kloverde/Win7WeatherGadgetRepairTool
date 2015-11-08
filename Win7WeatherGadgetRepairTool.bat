@@ -1,8 +1,9 @@
 @echo off
 
 REM Windows 7 Weather Gadget Repair Tool v1.0
-REM Copyright (c) 2015 Kurtis LoVerde
 REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
+REM Copyright (c) 2015 Kurtis LoVerde
+REM All rights reserved.
 REM
 REM See LICENSE for this software's licensing terms.
 
@@ -11,9 +12,8 @@ setlocal enabledelayedexpansion
 cls
 
 echo Windows 7 Weather Gadget Repair Tool v1.0
-echo Copyright (c) 2015 Kurtis LoVerde
+echo.
 echo https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
-
 echo.
 echo.
 

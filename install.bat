@@ -1,8 +1,9 @@
 @echo off
 
 REM Windows 7 Weather Gadget Repair Tool v1.0
-REM Copyright (c) 2015 Kurtis LoVerde
 REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
+REM Copyright (c) 2015 Kurtis LoVerde
+REM All rights reserved.
 REM
 REM See LICENSE for this software's licensing terms.
 
@@ -24,12 +25,11 @@ if %errorlevel%==%RET_FUNCTION_SUCCESS% (
 
 cls
 
-echo Win7WeatherGadgetRepairTool Installer
+echo Windows 7 Weather Gadget Repair Tool Installer
 echo.
-echo Copyright (c) 2015 Kurtis LoVerde
 echo https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 echo.
-echo This process adds an entry to the Windows registry to
+echo This installer adds an entry to the Windows registry to
 echo run Win7WeatherGadgetRepairTool.bat automatically when
 echo your system starts.  This can be undone at any time by
 echo running uninstall.bat or deleting the entry yourself.
@@ -39,7 +39,7 @@ echo might make it less likely that you'll need to run
 echo Win7WeatherGadgetRepairTool.bat yourself.
 echo.
 echo To make this application as simple to use as possible
-echo for the greatest amount of people, the registry entry
+echo for the greatest number of people, the registry entry
 echo does not rely on advanced concepts such as putting
 echo Win7WeatherGadgetRepairTool.bat on your system path.
 echo Instead, the registry entry will contain the full path
@@ -70,6 +70,10 @@ echo.
 :install
    call .\pathSanitizer.bat "%executionDir%\Win7WeatherGadgetRepairTool.bat"
 
+   echo.
+   echo Creating registry entry...
+   echo.
+
    reg add %registryKey% /v %registryValue% /t REG_SZ /d "%sanitized_path%" /f
 
    if %errorlevel%==0 (
@@ -79,7 +83,10 @@ echo.
       echo.
       echo Installation failed when attempting to create the registry entry
    )
-   
+
+   echo.
+   pause
+
    goto end
 
 :cancel
