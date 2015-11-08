@@ -38,7 +38,7 @@ REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repai
    set strError=ERROR:  Gadget repair failed with return code 
 
    call .\license.bat
-   set retIsLicenseAccepted=%errorlevel%
+   set retIsLicenseAccepted=!errorlevel!
 
    if !retIsLicenseAccepted!==%RET_FUNCTION_SUCCESS% (
       call .\writeConfigFile.bat
