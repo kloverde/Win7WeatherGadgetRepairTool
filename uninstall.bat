@@ -76,9 +76,6 @@ echo.
       )
    )
 
-   REM Make sure the settings directory exists before attempting to delete it, otherwise rmdir
-   REM could exit with an error code, causing the uninstaller to throw a false error message.
-
    if exist "%scriptConfigDir%" (
       rmdir /s /q "%scriptConfigDir%" 2> nul
 
