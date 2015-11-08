@@ -1,6 +1,6 @@
 @echo off
 
-REM Windows 7 Weather Gadget Repair Tool v1.0
+REM Windows 7 Weather Gadget Repair Tool
 REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 REM Copyright (c) 2015 Kurtis LoVerde
 REM All rights reserved.
@@ -17,6 +17,7 @@ set RET_FIXGADGET_FILE_NOT_FOUND=-4
 set RET_FIXGADGET_COPY_FAIL=-5
 set RET_UNINSTALL_CANT_DELETE_REGISTRY=-6
 set RET_UNINSTALL_CANT_DELETE_CFG_DIR=-7
+set RET_NOT_WINDOWS_7=-8
 
 set executionDir=%~dp0
 set licenseFullPath=%executionDir%\LICENSE

@@ -1,6 +1,6 @@
 @echo off
 
-REM Windows 7 Weather Gadget Repair Tool v1.0
+REM Windows 7 Weather Gadget Repair Tool
 REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 REM Copyright (c) 2015 Kurtis LoVerde
 REM All rights reserved.
@@ -11,17 +11,24 @@ setlocal enabledelayedexpansion
 
 cls
 
-echo Windows 7 Weather Gadget Repair Tool v1.0
+set executionDir=%~dp0
+
+pushd "%executionDir%"
+
+call .\initVariables.bat
+call .\checkWin7.bat
+
+if not !errorlevel!==%RET_FUNCTION_SUCCESS% (
+   pause
+   goto end
+)
+
+echo Windows 7 Weather Gadget Repair Tool
 echo.
 echo https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 echo.
 echo.
 
-set executionDir=%~dp0
-
-pushd "%executionDir%"
-
-call initVariables.bat
 
 REM FUNCTION   : main
 REM PARAMETERS : none
@@ -59,6 +66,7 @@ REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repai
       if not !retIsLicenseAccepted!==%RET_LICENSEPROMPT_USER_DECLINED% (         
          echo.
          echo !strError!
+         pause
       )
    ) else (
       echo.

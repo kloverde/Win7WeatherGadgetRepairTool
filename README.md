@@ -16,14 +16,14 @@ together in the same directory.  Do not separate them.
 The following three scripts are the only ones you should
 run yourself:
 
-**Win7WeatherGadgetRepairTool.bat:**
+**Win7WeatherGadgetRepairTool.bat**
 
   This script performs the repair operation; run it when
   you notice your gadget malfunctioning.  After running
   it, you'll probably need to restart the gadget or log
   out, then log back in.
 
-**install.bat:**
+**install.bat**
 
   This script will add an entry to the Windows registry to
   run Win7WeatherGadgetRepairTool.bat automatically at
@@ -48,7 +48,7 @@ run yourself:
   still have to restart the gadget and/or log out and log
   back in.
 
-**uninstall.bat:**
+**uninstall.bat**
 
   This script removes the autorun entry added to the
   registry by install.bat.  It also removes the settings

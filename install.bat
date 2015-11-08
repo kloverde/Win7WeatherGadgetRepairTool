@@ -1,23 +1,33 @@
 @echo off
 
-REM Windows 7 Weather Gadget Repair Tool v1.0
+REM Windows 7 Weather Gadget Repair Tool
 REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 REM Copyright (c) 2015 Kurtis LoVerde
 REM All rights reserved.
 REM
 REM See LICENSE for this software's licensing terms.
 
-setlocal
+setlocal enabledelayedexpansion
 
 cls
 
 set executionDir=%~dp0
-pushd "%executionDir%"
+pushd "!executionDir!"
 
 call .\initVariables.bat
+
+cls
+
+call .\checkWin7.bat
+
+if not !errorlevel!==%RET_FUNCTION_SUCCESS% (
+   pause
+   goto end
+)
+
 call .\license.bat
 
-if %errorlevel%==%RET_FUNCTION_SUCCESS% (
+if !errorlevel!==%RET_FUNCTION_SUCCESS% (
    call .\writeConfigFile.bat
 ) else (
    goto cancel
@@ -56,11 +66,11 @@ echo.
 :confirmation
    set /p yesNo=Do you want to continue^? ^(Y/N^) 
 
-   if /i "%yesNo%"=="Y" (
+   if /i "!yesNo!"=="Y" (
      goto install
    )
 
-   if /i "%yesNo%"=="N" (
+   if /i "!yesNo!"=="N" (
       goto cancel
    )
 
@@ -68,15 +78,15 @@ echo.
 
 
 :install
-   call .\pathSanitizer.bat "%executionDir%\Win7WeatherGadgetRepairTool.bat"
+   call .\pathSanitizer.bat "!executionDir!\Win7WeatherGadgetRepairTool.bat"
 
    echo.
    echo Creating registry entry...
    echo.
 
-   reg add %registryKey% /v %registryValue% /t REG_SZ /d "%sanitized_path%" /f
+   reg add %registryKey% /v %registryValue% /t REG_SZ /d "!sanitized_path!" /f
 
-   if %errorlevel%==0 (
+   if !errorlevel!==0 (
       echo.
       echo Installation complete.
    ) else (

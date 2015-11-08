@@ -1,6 +1,6 @@
 @echo off
 
-REM Windows 7 Weather Gadget Repair Tool v1.0
+REM Windows 7 Weather Gadget Repair Tool
 REM https://www.github.com/kloverde/Win7WeatherGadgetRepairTool
 REM Copyright (c) 2015 Kurtis LoVerde
 REM All rights reserved.
