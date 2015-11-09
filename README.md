@@ -6,15 +6,13 @@ This application fixes a common problem with the Windows 7
 weather gadget where the gadget suddenly stops working.
 Instead of showing the current weather conditions, it
 displays an error which says "Cannot connect to service."
-This script refreshes the gadget's configuration file; the
-gadget will start working again once the gadget is
-restarted.
+This script refreshes the gadget's configuration file and
+preserves your existing settings.  The gadget will start
+working again once it's restarted.
 
-All of the contents in the provided zip file need to stay
-together in the same directory.  Do not separate them.
-
-The following three scripts are the only ones you should
-run yourself:
+The following three scripts are meant to be run by end
+users.  The rest are used internally by the application
+and should not be run by end users.
 
 **Win7WeatherGadgetRepairTool.bat**
 
