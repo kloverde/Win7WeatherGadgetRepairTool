@@ -7,8 +7,7 @@ weather gadget where the gadget suddenly stops working.
 Instead of showing the current weather conditions, it
 displays an error which says "Cannot connect to service."
 This script refreshes the gadget's configuration file and
-preserves your existing settings.  The gadget will start
-working again once it's restarted.
+restarts the gadget.  Your existing settings are kept.
 
 The following three scripts are meant to be run by end
 users.  The rest are used internally by the application
@@ -16,38 +15,43 @@ and should not be run by end users.
 
 **Win7WeatherGadgetRepairTool.bat**
 
-  This script performs the repair operation; run it when
-  you notice your gadget malfunctioning.  After running
-  it, you'll probably need to restart the gadget or log
-  out, then log back in.
+  This script performs the repair operation and restarts
+  the Windows sidebar, thus restarting the gadget.  Run
+  this script when you notice your gadget malfunctioning.
+  (Keep reading to learn how to automate this process).
 
 **install.bat**
 
   This script will add an entry to the Windows registry to
   run Win7WeatherGadgetRepairTool.bat automatically at
-  startup.  It is not necessary to use this script, but
-  it can make it less likely for the gadget to malfunction.
-  It might even eliminate the need for you to restart the
-  gadget or log out, depending on when the malfunction
-  occurs.  For example, if there's a problem and the
-  repair occurs before the gadget initializes, you'll
-  never even notice that something was wrong.
-
-  If you want to get *really* aggressive, you could use
-  Task Scheduler to create a recurring task to run
-  Win7WeatherGadgetRepairTool.bat every few minutes (this
-  script will not do that for you).  You can do it
-  yourself by typing "Task Scheduler" into your Start
-  menu.
-
-  Note that whatever approach you choose (running
-  Win7WeatherGadgetRepairTool.bat on demand, using
-  install.bat or creating a scheduled task), you might
-  still have to restart the gadget and/or log out and log
-  back in.
+  startup.  It is not required that you run this script,
+  but it is recommended.
 
 **uninstall.bat**
 
   This script removes the autorun entry added to the
   registry by install.bat.  It also removes the settings
   file that this tool creates in your user profile.
+
+
+<br/>
+I run this application on my own machine with it set to run
+on startup via install.bat.  Speaking from personal
+experience, when my machine boots, it always manages to run
+Win7WeatherGadgetRepairTool.bat before the gadget loads, so
+the config file is always in a valid state.  After several
+months of using the application in this way, the gadget has
+never malfunctioned on me.  So, for me, running
+automatically at startup is a complete fix.
+
+If you're not as lucky, and if you don't want to bother
+with running Win7WeatherGadgetRepairTool.bat yourself, you
+can use Task Scheduler to create a recurring task to run 
+Win7WeatherGadgetRepairTool.bat every so often.  This
+application will not do that for you; you can do it
+yourself by typing "Task Scheduler" into your Start  menu.
+You'll have to consider whether you want to do this, since
+you'll actually SEE the sidebar restarting every time -- it
+will disappear and reappear.  However, if enough people
+ask, I might investigate whether it's possible to add this
+functionality on an opt-in basis.
