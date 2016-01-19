@@ -1,4 +1,4 @@
-## Version 1.2 (January 18, 2015)
+## Version 1.2 (January 18, 2016)
 
 * It's no longer necessary to restart the gadget after
   running Win7WeatherGadgetRepairTool.bat.  (Thanks to
