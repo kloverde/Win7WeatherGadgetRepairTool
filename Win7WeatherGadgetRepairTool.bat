@@ -39,10 +39,11 @@ REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repai
    REM Default the return values to failure states
    set retIsLicenseAccepted=%RET_FUNCTION_UNINITIALIZED_FAILURE%
    set retFixGadget=%RET_FUNCTION_UNINITIALIZED_FAILURE%
+   set retRestartSidebar=%RET_FUNCTION_UNINITIALIZED_FAILURE%
    set exitStatus=%RET_FUNCTION_UNINITIALIZED_FAILURE%
 
-   set strSuccess=Gadget repaired successfully.  You might have to log out and log back in again for the change to take effect.
-   set strError=ERROR:  Gadget repair failed with return code 
+   set strError=ERROR:  Gadget repair failed with return code !retFixGadget!
+   set strSuccess=All operations completed successfully.
 
    call .\license.bat
    set retIsLicenseAccepted=!errorlevel!
@@ -52,10 +53,18 @@ REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repai
       call :fixGadget retFixGadget
 
       if not !retFixGadget!==%RET_FUNCTION_SUCCESS% (
-         set strError=!strError!!retFixGadget!
+         set strError=ERROR:  Gadget repair failed with return code !retFixGadget!
          set exitStatus=!retFixGadget!
       ) else (
-         set exitStatus=%RET_FUNCTION_SUCCESS%
+         call :restartSidebar retRestartSidebar
+
+         if not !retRestartSidebar!==%RET_FUNCTION_SUCCESS% (
+            set strError=ERROR:  The gadget was successfully repaired but could not be restarted.  Restart failed with return code !retRestartSidebar!
+            set exitStatus=!retRestartSidebar!
+         ) else (
+            echo Restart successful
+            set exitStatus=%RET_FUNCTION_SUCCESS%
+         )
       )
    ) else (
       set strError=!strError!!retIsLicenseAccepted!
@@ -87,7 +96,7 @@ REM              RET_FUNCTION_SUCCESS if file successfully written
    if not exist "%gadgetConfigFullPath%" (
       set %~1=%RET_FIXGADGET_FILE_NOT_FOUND%
    ) else (
-      echo Repairing gadget...
+      echo Repairing config file...
 
       pushd %gadgetConfigDir%
       copy %gadgetConfigFile% /b+ ,,/y
@@ -99,6 +108,52 @@ REM              RET_FUNCTION_SUCCESS if file successfully written
       )
 
       popd
+   )
+
+   goto end
+
+REM FUNCTION   : restartSidebar
+REM PARAMETERS : reference variable for return value
+REM RETURNS    : RET_STOP_SIDEBAR_FAIL if sidebar.exe could not be stopped
+REM            : REM_START_SIDEBAR_FAIL if sidebar.exe could not be started
+REM              RET_FUNCTION_SUCCESS if sidebar.exe successfully restarted
+:restartSidebar
+   set retStartSidebar=%RET_FUNCTION_UNINITIALIZED_FAILURE%
+
+   echo.
+   echo Restarting %sidebarExe%...
+
+   tasklist /fi "IMAGENAME eq %sidebarExe%" | findstr "%sidebarExe%" > nul 2>&1
+
+   if !errorlevel!==0 (
+      taskkill /im %sidebarExe% /t /f > nul 2>&1
+
+      if !errorlevel!==0 (
+         echo ^ ^ ^ Stopped successfully
+         call :startSidebar retStartSidebar
+         set %~1=!retStartSidebar!
+      ) else (
+         set %~1=%RET_STOP_SIDEBAR_FAIL%
+      )
+   ) else (
+      call :startSidebar retStartSidebar
+      set %~1=!retStartSidebar!
+   )
+
+   goto end
+
+REM FUNCTION   : startSidebar
+REM PARAMETERS : reference variable for return value
+REM RETURNS    : RET_START_SIDEBAR_FAIL if sidebar.exe could not be started
+REM              RET_FUNCTION_SUCCESS if sidebar.exe was successfully started
+:startSidebar
+   start "" %sidebarExe%
+
+   if !errorlevel!==0 (
+      echo ^ ^ ^ Started successfully
+      set %~1=%RET_FUNCTION_SUCCESS%
+   ) else (
+      set %~1=%RET_START_SIDEBAR_FAIL%
    )
 
    goto end

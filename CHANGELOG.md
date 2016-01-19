@@ -1,5 +1,11 @@
-Version 1.1
------------
+## Version 1.2 (January 18, 2015)
+
+* It's no longer necessary to restart the gadget after
+  running Win7WeatherGadgetRepairTool.bat.  (Thanks to
+  Chris for the suggestion to restart sidebar.exe).
+
+
+## Version 1.1 (November 8, 2015)
 
 * The application will refuse to run on anything other than
   Windows 7.  This application was designed specifically
@@ -14,7 +20,6 @@ Version 1.1
   message.  After pressing a key, the window will close.
 
 
-Version 1.0
------------
+## Version 1.0 (November 8, 2015)
 
 * Initial release

@@ -18,6 +18,8 @@ set RET_FIXGADGET_COPY_FAIL=-5
 set RET_UNINSTALL_CANT_DELETE_REGISTRY=-6
 set RET_UNINSTALL_CANT_DELETE_CFG_DIR=-7
 set RET_NOT_WINDOWS_7=-8
+set RET_START_SIDEBAR_FAIL=-9
+set RET_STOP_SIDEBAR_FAIL=-10
 
 set executionDir=%~dp0
 set licenseFullPath=%executionDir%\LICENSE
@@ -33,3 +35,5 @@ set gadgetConfigFullPath=%gadgetConfigDir%\%gadgetConfigFile%
 
 set registryKey=HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
 set registryValue=Win7WeatherGadgetRepairTool
+
+set sidebarExe=sidebar.exe
