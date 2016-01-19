@@ -35,7 +35,6 @@ and should not be run by end users.
 
 
 <br/>
-<br/>
 I run this application on my own machine with it set to run
 on startup via install.bat.  Speaking from personal
 experience, when my machine boots, it always manages to run
