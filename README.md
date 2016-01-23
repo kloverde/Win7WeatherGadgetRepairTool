@@ -36,26 +36,3 @@ and should not be run by end users.
   This script undoes the changes made to your system by
   install.bat.  It also removes the configuration file
   that this tool creates in your user profile.
-
-
-<br/>
-I run this application on my own machine with it set to run
-on startup via install.bat.  Speaking from personal
-experience, when my machine boots, it always manages to run
-Win7WeatherGadgetRepairTool.bat before the gadget loads, so
-the config file is always in a valid state.  After several
-months of using the application in this way, the gadget has
-never malfunctioned on me.  So, for me, running
-automatically at startup is a complete fix.
-
-If you're not as lucky, and if you don't want to bother
-with running Win7WeatherGadgetRepairTool.bat yourself, you
-can use Task Scheduler to create a recurring task to run 
-Win7WeatherGadgetRepairTool.bat every so often.  This
-application will not do that for you; you can do it
-yourself by typing "Task Scheduler" into your Start  menu.
-You'll have to consider whether you want to do this, since
-you'll actually SEE the sidebar restarting every time -- it
-will disappear and reappear.  However, if enough people
-ask, I might investigate whether it's possible to add this
-functionality on an opt-in basis.
