@@ -32,7 +32,8 @@ echo.
 
 REM FUNCTION   : main
 REM PARAMETERS : none
-REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repair
+REM RETURNS    : RET_FUNCTION_SUCCESS for successful gadget repair and restart
+REM              Negative value on error (see initVariables.bat)
 :main
    setlocal
 
@@ -53,7 +54,7 @@ REM RETURNS    : 0 for successful gadget repair; non-zero for unsuccessful repai
       call :fixGadget retFixGadget
 
       if not !retFixGadget!==%RET_FUNCTION_SUCCESS% (
-         set strError=ERROR:  Gadget repair failed with return code !retFixGadget!
+         set strError=ERROR:  Gadget repair failed with return code 
          set exitStatus=!retFixGadget!
       ) else (
          call :restartSidebar retRestartSidebar
@@ -106,11 +107,9 @@ REM              RET_FUNCTION_SUCCESS if file successfully written
       ) else (
          set %~1=%RET_FIXGADGET_COPY_FAIL%
       )
-
-      popd
    )
 
-   goto end
+   goto :eof
 
 REM FUNCTION   : restartSidebar
 REM PARAMETERS : reference variable for return value
@@ -140,7 +139,7 @@ REM              RET_FUNCTION_SUCCESS if sidebar.exe successfully restarted
       set %~1=!retStartSidebar!
    )
 
-   goto end
+   goto :eof
 
 REM FUNCTION   : startSidebar
 REM PARAMETERS : reference variable for return value
@@ -156,9 +155,8 @@ REM              RET_FUNCTION_SUCCESS if sidebar.exe was successfully started
       set %~1=%RET_START_SIDEBAR_FAIL%
    )
 
-   goto end
+   goto :eof
 
 :end
    popd
-
-endlocal
+   endlocal

@@ -1,3 +1,8 @@
+## Version 1.3 (January 23, 2016)
+
+* Added support for Windows Task Scheduler to install.bat
+
+
 ## Version 1.2 (January 18, 2016)
 
 * It's no longer necessary to restart the gadget after
@@ -22,4 +27,4 @@
 
 ## Version 1.0 (November 8, 2015)
 
-* Initial release
+* First release
