@@ -11,6 +11,7 @@ REM See LICENSE for this software's licensing terms.
 set _yn=
 set msg=%1
 
+REM trim quotes
 for /f "useback tokens=*" %%a in ( '%msg%' ) do set msg=%%~a
 
 :top
