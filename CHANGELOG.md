@@ -1,6 +1,6 @@
 ## Version 1.3 (January 23, 2016)
 
-* Added support for Windows Task Scheduler to install.bat
+* Added the ability to create a scheduled task
 
 
 ## Version 1.2 (January 18, 2016)
