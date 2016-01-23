@@ -64,3 +64,10 @@ Keep in mind that you always have the option of just running
 Win7WeatherGadgetRepairTool.bat yourself if the gadget
 malfunctions while you're using your computer.  It depends
 on how hands-off you want to be.
+
+As a final note, if you do create the scheduled task, it's
+important that you don't move or rename the application
+directory.  If you do, Task Scheduler will not be able to
+find the application.  If you want to move or rename the
+directory after the scheduled task has been created, you
+will need to run the installer again.
