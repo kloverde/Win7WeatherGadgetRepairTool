@@ -23,8 +23,8 @@ and should not be run by end users.
 **install.bat**
 
   It is not required that you run this script, but it is
-  recommended.  This script will add an entry to the
-  Windows registry to run Win7WeatherGadgetRepairTool.bat
+  recommended.  This script adds an entry to the Windows
+  registry to run Win7WeatherGadgetRepairTool.bat
   automatically at startup.  Also, it allows you to
   *optionally* create a scheduled task to periodically
   run the .bat while your computer is running.  The task
