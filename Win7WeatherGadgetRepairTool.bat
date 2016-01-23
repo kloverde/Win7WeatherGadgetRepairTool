@@ -35,8 +35,6 @@ REM PARAMETERS : none
 REM RETURNS    : RET_FUNCTION_SUCCESS for successful gadget repair and restart
 REM              Negative value on error (see initVariables.bat)
 :main
-   setlocal
-
    REM Default the return values to failure states
    set retIsLicenseAccepted=%RET_FUNCTION_UNINITIALIZED_FAILURE%
    set retFixGadget=%RET_FUNCTION_UNINITIALIZED_FAILURE%
@@ -85,7 +83,6 @@ REM              Negative value on error (see initVariables.bat)
 
    exit /b !exitStatus!
 
-   endlocal
    goto end
 
 REM FUNCTION   : fixGadget
