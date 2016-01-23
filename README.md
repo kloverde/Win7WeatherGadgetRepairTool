@@ -28,7 +28,7 @@ and should not be run by end users.
   automatically at startup.  Also, it allows you to
   *optionally* create a scheduled task to periodically
   run the .bat while your computer is running.  The task
-  runs invisbly, so you don't need to worry about a
+  runs invisibly, so you don't need to worry about a
   random command window popping up.
 
 **uninstall.bat**
