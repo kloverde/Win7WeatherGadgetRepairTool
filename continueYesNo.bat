@@ -16,6 +16,10 @@ for /f "useback tokens=*" %%a in ( '%msg%' ) do set msg=%%~a
 :top
    set /p _yn=%msg% 
 
+   REM trim leading and trailing spaces
+   for /f "tokens=* delims= " %%a in ( "%_yn%" ) do set _yn=%%a
+   for /l %%a in ( 1, 1, 1024 ) do if "!_yn:~-1!"==" " set _yn=!_yn:~0,-1!
+
    if /i "%_yn%"=="Y" (
      goto :eof
    )
