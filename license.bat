@@ -61,14 +61,14 @@ REM PARAMETERS : reference variable for return value
 REM RETURNS    : RET_LICENSEPROMPT_USER_DECLINED if user did not accept the terms;
 REM              RET_FUNCTION_SUCCESS if the user accepted the terms
 :licensePrompt
-   set /p accept=Do you accept the licensing terms^? ^(Y/N^) 
+   call .\continueYesNo.bat "Do you accept the licensing terms? (Y/N)" 
 
-   if /i "!accept!"=="Y" (
+   if /i "!_yn!"=="Y" (
       set %~1=%RET_FUNCTION_SUCCESS%
       goto :eof
    )
 
-   if /i "!accept!"=="N" (
+   if /i "!_yn!"=="N" (
       set %~1=%RET_LICENSEPROMPT_USER_DECLINED%
       goto :eof
    )

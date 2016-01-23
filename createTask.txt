@@ -1,0 +1,73 @@
+NEXT STEP:  Creating a scheduled task
+
+If you see a prompt at the bottom of this window which says
+"More", it means that there is more text beyond what is
+currently displayed.  Press the ENTER key to display more
+text.
+
+This installer can also create a scheduled task to
+periodically run the repair job while your computer is
+running.
+
+Most likely, you will find that this is NOT necessary; the
+once-per-boot execution which has just been set up in the
+registry will probably be sufficient for most people.
+However, the option is made available to those who might
+want to try it.
+
+I must caution you, however, that you might find a scheduled
+task to be disruptive.  The reason for this is a consequence
+of how Windows works.  When you start a program, the program
+displays over top of whatever other programs you might have
+open.  A required part of the gadget repair process is to
+restart the gadget program after its configuration file has
+been refreshed.  The result is that the gadget will be
+brought to the front, just like when you launch a program
+yourself.
+
+This means that if you're doing something like watching a
+movie, the gadget might steal focus and come to the front,
+causing you some inconvenience.
+
+Some measures have been taken in the task configuration to
+minimize the chance of such a disruption occurring:
+
+1.  The task only runs once per hour
+
+2.  The task only runs if the computer has been idle for
+    5 minutes.
+
+3.  The task only runs if you have a network connection.
+    (It wouldn't be of much use to restart the gadget
+    unless you're online).
+
+The most important criterion is the idle time configuration.
+This prevents the task from running if you're doing
+something like browsing the Web, playing a game, etc.  If,
+however, you're watching a movie, it's less clear whether
+the task will run.  Naturally, screen savers don't run when
+you watch a movie, but whether the task will run depends on
+how the program you're using accomplishes this.  If it
+prevents your computer from being reported as idle, the
+task will not run.  If, however, its technique is to
+explicitly disable the screen saver, the task will probably
+run.  You'll just have to try it to find out.
+
+If you choose to allow this task to be created, you can
+change its settings in Task Scheduler to suit your own
+preferences.  You can also delete the task at any time by
+running uninstall.bat or by deleting the task from Task
+Scheduler yourself.  The name of the task would be
+"Win7WeatherGadgetRepairTool".
+
+Keep in mind that you always have the option of just running
+Win7WeatherGadgetRepairTool.bat yourself if the gadget
+malfunctions while you're using your computer.  It depends
+on how hands-off you want to be.
+
+As a final note, if you do create the scheduled task, it's
+important that you don't move or rename the application
+directory.  If you do, Task Scheduler will not be able to
+find the application.  If you want to move or rename the
+directory after the scheduled task has been created, you
+will need to run the installer again.
