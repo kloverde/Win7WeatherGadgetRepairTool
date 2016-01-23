@@ -46,12 +46,12 @@ This prevents the task from running if you're doing
 something like browsing the Web, playing a game, etc.  If,
 however, you're watching a movie, it's less clear whether
 the task will run.  Naturally, screen savers don't run when
-you watch a movie, but it depends on how the program you're
-using accomplishes this.  If it prevents your computer from
-being reported as idle, the task will not run.  If, however,
-its technique is to directly disable the screen saver, the
-task will probably run.  You'll just have to try it to find
-out.
+you watch a movie, but whether the task will run depends on
+how the program you're using accomplishes this.  If it
+prevents your computer from being reported as idle, the
+task will not run.  If, however, its technique is to
+explicitly disable the screen saver, the task will probably
+run.  You'll just have to try it to find out.
 
 If you choose to allow this task to be created, you can
 change its settings in Task Scheduler to suit your own
