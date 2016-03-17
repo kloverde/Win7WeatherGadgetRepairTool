@@ -1,3 +1,8 @@
+## Version 1.3.1 (March 16, 2016)
+
+* Only the readme has been updated
+
+
 ## Version 1.3 (January 23, 2016)
 
 * Added the ability to create a scheduled task
