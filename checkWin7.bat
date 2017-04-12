@@ -13,7 +13,7 @@ ver | findstr /i "6.1" > nul 2>&1
 
 if not !errorlevel!==0 (
    echo You aren't running Windows 7.  This application
-   echo is for Winodws 7 only; it doesn't solve
+   echo is for Windows 7 only; it doesn't solve
    echo problems with gadgets on other versions of
    echo Windows.  The application will now close.
    echo.
