@@ -36,11 +36,3 @@ and should not be run by end users.
   This script undoes the changes made to your system by
   install.bat.  It also removes the configuration file
   that this tool creates in your user profile.
-
-
-## Thanks
-
-Do you like this application? Want to toss a few bucks my
-way to say thanks? I accept donations at
-https://paypal.me/KurtisLoVerde/5.  Thank you for your
-support!
